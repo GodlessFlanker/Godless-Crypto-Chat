@@ -6,16 +6,18 @@ import rsa
 public_key, private_key = rsa.newkeys(1024)
 public_partner = None
 
-
 # // Godless_Developement_Presents //
 
-#ip = input("Enter your Ip adress")   //this command line we use in order to make it more functional
+
+#   //this command line we use in order to make it more functional
+ip = input("Enter your Ip adress: ")
+ip_2 = input("Enter your partner's IP adress: ")
 
 choice = input("Do you want to host (1) or to connect (2): ")
 
 if choice == "1":
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("127.0.0.1", 9999))
+    server.bind((ip, 9999))
     server.listen()
 
 #The other person should specify IP of you to connect
@@ -24,7 +26,7 @@ if choice == "1":
     public_partner = rsa.PublicKey.load_pkcs1(client.recv(1024))
 elif choice == "2":
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(("127.0.0.1", 9999))
+    client.connect((ip_2, 9999))
     client.send(public_key.save_pkcs1("PEM"))
     public_partner = rsa.PublicKey.load_pkcs1(client.recv(1024))
 else:
